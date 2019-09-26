@@ -9,6 +9,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import materialien.Kanal;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -28,7 +31,7 @@ public class HomeScreenUI extends javax.swing.JFrame {
 
     private javax.swing.JLabel _aktuelleChanelLabel;
     private javax.swing.JPanel _aktuelleInhalt;
-    private javax.swing.JList<String> _kanalListe;
+    private javax.swing.JList<Kanal> _kanalListe;
     private javax.swing.JLabel _statusLabel;
     private javax.swing.JScrollPane jScrollPane1;
 
@@ -178,7 +181,7 @@ public class HomeScreenUI extends javax.swing.JFrame {
 //    }
 
     
-    public javax.swing.JList<String> get_kanalListe()
+    public javax.swing.JList<Kanal> get_kanalListe()
     {
         return _kanalListe;
     }

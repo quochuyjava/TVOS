@@ -25,6 +25,11 @@ public class Kanal
     {
         return _name + " wird in " +_zone+ " auf " +_sprache+ " präsentiert";
     }
+    
+    public String toString()
+    {
+        return _verkürzung + " - " + _name  ;
+    }
 
 	public String get_mediaDateiLink() {
 		return _mediaDateiLink;

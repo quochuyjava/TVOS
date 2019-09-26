@@ -27,7 +27,7 @@ public class HomeScreenWerkzeug
         showUI();
         showChanelListe();
         
-        registriereKanalListeAktion();
+        registriereUIAktionen();
     }
 
     /**
@@ -48,15 +48,14 @@ public class HomeScreenWerkzeug
     {
         List<Kanal> kanalListe = getKanalListe();
         
-        JList<String> kanalJList = _homeScreenUI.get_kanalListe();
+        JList<Kanal> kanalJList = _homeScreenUI.get_kanalListe();
         DefaultListModel model = (DefaultListModel) kanalJList.getModel();
         int zähler = 0;
         for (Kanal kanal : kanalListe )
         {
-            model.add(zähler, kanal.getFormartierteString());
+            model.add(zähler, kanal);
             zähler++;
         }
-        
     }
     
     private void showAktuelleInhalt(Kanal aktuelleKanal)
@@ -71,6 +70,7 @@ public class HomeScreenWerkzeug
     			imageIcon = new ImageIcon(newimg);  // transform it back
     			
     			JLabel label = new JLabel(imageIcon);
+    			_homeScreenUI.get_aktuelleInhalt().remove(0);
     			_homeScreenUI.get_aktuelleInhalt().add(label);
     			_homeScreenUI.get_aktuelleInhalt().revalidate();
     			_homeScreenUI.get_aktuelleInhalt().repaint();
@@ -78,14 +78,9 @@ public class HomeScreenWerkzeug
     
     private Kanal getAktuelleKanal()
     {
-    	JList list = _homeScreenUI.get_kanalListe();
-    	DefaultListModel model = (DefaultListModel) list.getModel();
-    	int selectedIndex = list.getSelectedIndex();
-    	System.out.println(list.getSelectedValue() instanceof Kanal);
-    	Object obj = model.get(selectedIndex);
-    	Kanal aktuelleKanal = (Kanal) model.get(selectedIndex);
-//    	Kanal aktuelleKanal = (Kanal) list.getSelectedValue();
-    	return aktuelleKanal;
+    	JList<Kanal> list = _homeScreenUI.get_kanalListe();
+    	Kanal kanalTest = list.getSelectedValue();
+    	return kanalTest;
     }
     
     private void registriereUIAktionen()
