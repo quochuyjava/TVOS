@@ -33,13 +33,13 @@ public class HomeScreenUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
 
     //Buttons
-    JButton _homeButton;
-    JButton _backButton;
-    JButton _nextButton;
+    private JButton _homeButton;
+    private JButton _backButton;
+    private JButton _nextButton;
     
     //Größe der Komponenten
-    final int _hoeheVon_aktuelleInhalt = 316;
-	final int _breiteVon_aktuelleInhalt = 433;
+    final private int _hoeheVon_aktuelleInhalt = 316;
+	final private int _breiteVon_aktuelleInhalt = 433;
     // End of variables declaration   
     
     
@@ -193,8 +193,6 @@ public class HomeScreenUI extends javax.swing.JFrame {
 
 	private void zeigeAktuelleInhalt()
 	  {
-
-		
 		//resize
 		ImageIcon imageIcon = new ImageIcon("Inhalt/vtv.jpg"); // transform it 
 		Image image = imageIcon.getImage();
@@ -205,10 +203,14 @@ public class HomeScreenUI extends javax.swing.JFrame {
 		_aktuelleInhalt.add(label);
 		_aktuelleInhalt.revalidate();
 		_aktuelleInhalt.repaint();
-
-//	  	_aktuelleInhalt.add(_statusLabel);
-	  	
-
 	  }
+
+	public int get_hoeheVon_aktuelleInhalt() {
+		return _hoeheVon_aktuelleInhalt;
+	}
+
+	public int get_breiteVon_aktuelleInhalt() {
+		return _breiteVon_aktuelleInhalt;
+	}
 }
 
