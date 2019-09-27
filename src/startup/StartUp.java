@@ -6,29 +6,40 @@ import java.util.List;
 
 import Service.HomeScreenService;
 import materialien.Kanal;
-import werkzeug.HomeScreenUI;
 import werkzeug.HomeScreenWerkzeug;
 
+/**
+ * Startet die Anwendung.
+ * 
+ * @author Quoc Huy Nguyen
+ */
 public class StartUp
 {
 
     public static void main(String[] args)
     {
-        System.out.println("show console");
         HomeScreenService homeScreenService = erzeugeHomeScreenService();
         HomeScreenWerkzeug homescreen = new HomeScreenWerkzeug(homeScreenService);
 
     }
     
+    /**
+     * Erzeugen das HomeScreenService 
+     * @return gomeScreenService
+     */
     private static HomeScreenService erzeugeHomeScreenService()
     {
-        HomeScreenService homeScreenService = new HomeScreenService(erzeugeBeispielKanal());
+        HomeScreenService homeScreenService = new HomeScreenService(erzeugeBeispielKanaele());
         
         return homeScreenService;
         
     }
 
-    private static List<Kanal> erzeugeBeispielKanal()
+    /**
+     * Erzeugen eine Liste der Kanälen
+     * @return List<Kanal>
+     */
+    private static List<Kanal> erzeugeBeispielKanaele()
     {
         List<Kanal> kanalListe = new ArrayList<Kanal>();
         kanalListe.add(new Kanal ("VTV", "Vietnam Television", "Vietnamese", "Vietnam", "Inhalt/vtv.jpg"));

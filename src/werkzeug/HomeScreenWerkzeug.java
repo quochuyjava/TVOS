@@ -17,15 +17,21 @@ import materialien.Kanal;
 public class HomeScreenWerkzeug
 {
     private HomeScreenUI _homeScreenUI;
-    
     private HomeScreenService _homeSreenService;
     
+    /**
+     * Konstruktor
+     * @param homeSreenService Die Service von HomeSreen
+     */
     public HomeScreenWerkzeug(HomeScreenService homeSreenService)
     {
         _homeScreenUI = new HomeScreenUI();
         _homeSreenService = homeSreenService;
         showUI();
-        showChanelListe();
+        addKanälenZuJList();
+        
+        //Zeigt AktuelleInhalt von dem ersten Kanal auf dem Bildschirm
+        showAktuelleInhalt(_homeSreenService.get_kanalListe().get(0));
         
         registriereUIAktionen();
     }
@@ -36,20 +42,17 @@ public class HomeScreenWerkzeug
     private void showUI()
     {
         _homeScreenUI.setVisible(true);
-        
     }
     
-    private List<Kanal> getKanalListe()
-    {
-        return _homeSreenService.get_kanalListe();
-    }
-    
-    private void showChanelListe()
+    /**
+     * Fügt die Datei von der Kanälenliste zu JList hinzu
+     */
+    private void addKanälenZuJList()
     {
         List<Kanal> kanalListe = getKanalListe();
         
         JList<Kanal> kanalJList = _homeScreenUI.get_kanalListe();
-        DefaultListModel model = (DefaultListModel) kanalJList.getModel();
+        DefaultListModel<Kanal> model = (DefaultListModel<Kanal>) kanalJList.getModel();
         int zähler = 0;
         for (Kanal kanal : kanalListe )
         {
@@ -58,52 +61,85 @@ public class HomeScreenWerkzeug
         }
     }
     
+    /**
+     * Zeige Mediadatei auf den Bildschirm
+     * @param aktuelleKanal: Der Kanal, den in der Liste gewählt wird
+     */
     private void showAktuelleInhalt(Kanal aktuelleKanal)
     {
-    			//resize
+    			//Resize das Bild
     			int hoehe = _homeScreenUI.get_hoeheVon_aktuelleInhalt();
     			int breite = _homeScreenUI.get_breiteVon_aktuelleInhalt();
     			String medienDateiLink = aktuelleKanal.get_mediaDateiLink();
-    			ImageIcon imageIcon = new ImageIcon(medienDateiLink); // transform it 
+    			ImageIcon imageIcon = new ImageIcon(medienDateiLink); // Photo Datei -> ImageIcon -> Image, damit man Resize machen kann
     			Image image = imageIcon.getImage();
     			Image newimg = image.getScaledInstance(breite, hoehe,  java.awt.Image.SCALE_SMOOTH); 	// scale it the smooth way  
-    			imageIcon = new ImageIcon(newimg);  // transform it back
+    			imageIcon = new ImageIcon(newimg);  // Image -> ImageIcon damit man in JLabel hinzufügen kann
     			
     			JLabel label = new JLabel(imageIcon);
-    			_homeScreenUI.get_aktuelleInhalt().remove(0);
-    			_homeScreenUI.get_aktuelleInhalt().add(label);
-    			_homeScreenUI.get_aktuelleInhalt().revalidate();
-    			_homeScreenUI.get_aktuelleInhalt().repaint();
+    			if(_homeScreenUI.get_bildSchirmJPanel().getComponentCount() != 0)
+    			{
+    				_homeScreenUI.get_bildSchirmJPanel().remove(0);
+    			}
+    			_homeScreenUI.get_bildSchirmJPanel().add(label);
+    			_homeScreenUI.get_bildSchirmJPanel().revalidate();
+    			//_homeScreenUI.get_aktuelleInhalt().repaint();
     }
     
-    private Kanal getAktuelleKanal()
-    {
-    	JList<Kanal> list = _homeScreenUI.get_kanalListe();
-    	Kanal kanalTest = list.getSelectedValue();
-    	return kanalTest;
-    }
-    
+    /**
+     * Registriere die Listener für die UI
+     */
     private void registriereUIAktionen()
     {
-    	registriereKanalListeAktion();
+    	registriereKanalJListeAktion();
     	
     }
     
-    private void registriereKanalListeAktion() 
+    /**
+     * Registriere die Listener für die KanalJList
+     */
+    private void registriereKanalJListeAktion() 
     {
-    	JList list = _homeScreenUI.get_kanalListe();
+    	JList<Kanal> list = _homeScreenUI.get_kanalListe();
     	list.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				reagiereAufDieKanalListe();
+				//if Value changed to ANOTHER Value (not the same)
+				if (list.getValueIsAdjusting())
+				{
+					reagiereAufDieKanalListe();
+				}
 			}
 		});
     }
     
+    /**
+     * Zeigt das neue Inhalt von dem ausgewählten Kanal
+     */
     private void reagiereAufDieKanalListe()
     {
     	showAktuelleInhalt(getAktuelleKanal());
     }
+
+    /**
+     * Gibt die ausgewählte Kanal
+     * @return
+     */
+	private Kanal getAktuelleKanal()
+	{
+		JList<Kanal> list = _homeScreenUI.get_kanalListe();
+		Kanal kanalTest = list.getSelectedValue();
+		return kanalTest;
+	}
+
+	/**
+	 * Gibt die Liste von allen Kanälen zurück
+	 * @return Liste von Kanälen
+	 */
+	private List<Kanal> getKanalListe()
+	{
+	    return _homeSreenService.get_kanalListe();
+	}
     
 }

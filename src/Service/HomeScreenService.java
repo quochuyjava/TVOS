@@ -11,11 +11,15 @@ public class HomeScreenService
      * Konstruktor
      * @param list: Die Liste von Kanal
      */
-    public HomeScreenService(List list)
+    public HomeScreenService(List<Kanal> list)
     {
         _kanalListe = list;
     }
 
+    /**
+     * Gibt die Liste der Kanälen zurück
+     * @return Liste der Kanälen
+     */
     public List<Kanal> get_kanalListe()
     {
         return _kanalListe;
