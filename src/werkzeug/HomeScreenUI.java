@@ -168,5 +168,13 @@ public class HomeScreenUI extends javax.swing.JFrame {
 	public int get_breiteVon_aktuelleInhalt() {
 		return _breiteVonBildschirm;
 	}
+
+	public JButton get_backButton() {
+		return _backButton;
+	}
+
+	public JButton get_nextButton() {
+		return _nextButton;
+	}
 }
 

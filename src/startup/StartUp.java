@@ -20,7 +20,6 @@ public class StartUp
     {
         HomeScreenService homeScreenService = erzeugeHomeScreenService();
         HomeScreenWerkzeug homescreen = new HomeScreenWerkzeug(homeScreenService);
-
     }
     
     /**
