@@ -87,7 +87,6 @@ public class HomeScreenWerkzeug
     			}
     			_homeScreenUI.get_bildSchirmJPanel().add(label);
     			_homeScreenUI.get_bildSchirmJPanel().revalidate();
-    			//_homeScreenUI.get_aktuelleInhalt().repaint();
     }
     
     /**
@@ -111,7 +110,7 @@ public class HomeScreenWerkzeug
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reagiereAufDenBackButton();
-				
+				_homeScreenUI.get_nextButton().setEnabled(true);
 			}
 		});
 		
@@ -169,6 +168,8 @@ public class HomeScreenWerkzeug
 				if (list.getValueIsAdjusting())
 				{
 					reagiereAufDieKanalListe();
+					
+					_homeScreenUI.get_backButton().setEnabled(true);
 				}
 			}
 		});

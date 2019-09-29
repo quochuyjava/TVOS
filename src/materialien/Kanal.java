@@ -53,6 +53,14 @@ public class Kanal
 	public String get_mediaDateiLink() {
 		return _mediaDateiLink;
 	}
+
+	/**
+	 * Gibt Verkürzung zurück
+	 * @return die Verkurzung des Kanals
+	 */
+	public String get_verkürzung() {
+		return _verkürzung;
+	}
     
 
 }

@@ -74,6 +74,8 @@ public class HomeScreenUI extends javax.swing.JFrame {
         _listeJScrollPane = new javax.swing.JScrollPane();
         _listeJScrollPane.setViewportView(_kanalJList);
         _kanalJList.setModel(new DefaultListModel<Kanal>());
+        // NEU================= them icon vao
+        _kanalJList.setCellRenderer(new JListRenderer());
         
         //Status Label
         _statusJLabel = new javax.swing.JLabel();
@@ -82,7 +84,9 @@ public class HomeScreenUI extends javax.swing.JFrame {
         //Die Buttons
         _homeButton = new JButton("Home");
         _backButton = new JButton("back");
+        _backButton.setEnabled(false);
         _nextButton = new JButton("Next");
+        _nextButton.setEnabled(false);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
