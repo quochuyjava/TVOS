@@ -13,6 +13,11 @@ import materialien.Kanal;
 public class JListRenderer extends JLabel implements ListCellRenderer<Kanal> {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Konstruktor
 	 */
 	public JListRenderer() {

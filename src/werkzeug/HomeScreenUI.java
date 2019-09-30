@@ -74,7 +74,8 @@ public class HomeScreenUI extends javax.swing.JFrame {
         _listeJScrollPane = new javax.swing.JScrollPane();
         _listeJScrollPane.setViewportView(_kanalJList);
         _kanalJList.setModel(new DefaultListModel<Kanal>());
-        // NEU================= them icon vao
+        
+        //Renderer für icon und text in der JList
         _kanalJList.setCellRenderer(new JListRenderer());
         
         //Status Label
@@ -157,18 +158,10 @@ public class HomeScreenUI extends javax.swing.JFrame {
 		this._bildschirmJPanel = _aktuelleInhalt;
 	}
 
-	/** 
-	 * Gibt die Höhe des Bildschirm zurück
-	 * @return _hoeheVonBildschirm
-	 */
 	public int get_hoeheVon_aktuelleInhalt() {
 		return _hoeheVonBildschirm;
 	}
 
-	/**
-	 * Gibt die Breite des Bildschirm zurück
-	 * @return _breiteVonBildschirm
-	 */
 	public int get_breiteVon_aktuelleInhalt() {
 		return _breiteVonBildschirm;
 	}
@@ -179,6 +172,10 @@ public class HomeScreenUI extends javax.swing.JFrame {
 
 	public JButton get_nextButton() {
 		return _nextButton;
+	}
+
+	public JLabel get_aktuelleChanelJLabel() {
+		return _aktuelleChanelJLabel;
 	}
 }
 

@@ -70,6 +70,15 @@ public class KanalVerlauf {
 	 * gibt zurück, ob es einen nächsten Kanal gibt
 	 * @return true, wenn es gibt
 	 */
+	public boolean istLetzteKanalVerfuegbar()
+	{
+		return (_kanalVerlauf[_aktuelleKanalImVerlauf+1] != null)? true:false;
+	}
+	
+	/**
+	 * gibt zurück, ob es einen nächsten Kanal gibt
+	 * @return true, wenn es gibt
+	 */
 	public boolean istNaechsteKanalVerfuegbar()
 	{
 		return (_aktuelleKanalImVerlauf != 0)? true:false;
@@ -88,6 +97,7 @@ public class KanalVerlauf {
 		
 		//setze den neunen Kanal auf dem Platz 0
 		_kanalVerlauf[0] = ausgewaehlteKanal;
+		_aktuelleKanalImVerlauf = 0;
 	}
 
 	/**
