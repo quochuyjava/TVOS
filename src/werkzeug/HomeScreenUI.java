@@ -1,164 +1,132 @@
 package werkzeug;
 
-import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
 
-import java.awt.Dimension;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import VideoPlayer.JFXVideoPanel;
+import javafx.embed.swing.JFXPanel;
 import materialien.Kanal;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
+
+import java.awt.Dimension;
 import javax.swing.JScrollPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 
+public class HomeScreenUI extends JFrame {
 
-/**
- *
- * @author Quoc Huy Nguyen
- */
-public class HomeScreenUI extends javax.swing.JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//Komponenten von GUI
+	private JPanel _hauptPanel;
+	private JFXVideoPanel _bildschirmVideoPanel;
+	private JPanel _bildschirmPhotoJPanel;
+	private JScrollPane _listeJScrollPane;
+	private JList<Kanal> _kanalJList;
+	private JButton _homeButton;
+	private JButton _nextButton;
+	private JButton _backButton;
+	private JLabel _statusJLabel;
+	private JLabel _aktuelleChanelJLabel;
 	
-	// Komponenten von GUI     
+    final private int _hoeheVonBildschirm = 400;	//goc 385
+	final private int _breiteVonBildschirm = 800;	//goc 500
 
-    private JLabel _aktuelleChanelJLabel;
-    private JPanel _bildschirmJPanel;
-    private JList<Kanal> _kanalJList;
-    private JLabel _statusJLabel;
-    private JScrollPane _listeJScrollPane
-    ;
+	/**
+	 * Create the frame.
+	 */
+	public HomeScreenUI() {
+		erzeugeKomponenten();
+		setResizable(false);
+		
 
-    	//Buttons
-    private JButton _homeButton;
-    private JButton _backButton;
-    private JButton _nextButton;
-    
-    	//Größe der Komponenten
-    final private int _hoeheVonBildschirm = 316;
-	final private int _breiteVonBildschirm = 433;
-	final private int _breiteDerListe = 250;
-    
-    
-
-    /**
-     * Konstruktor
-     */
-    public HomeScreenUI() {
-    	//Größe der Frame
-        setPreferredSize(new Dimension(800, 500));
-        setResizable(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
-        //Erzeugen die Komponenten
-        erzeugeKomponenten();
-        
-        //Die Positionen der Komponenten
-        erzeugeLayout();
-    }
-
-    /**
-     * Die Komponenten werden erzeugen
-     */
-    
-    private void erzeugeKomponenten() {
-    	// Label des aktuellen Kanals
-    	_aktuelleChanelJLabel = new javax.swing.JLabel();
-    	_aktuelleChanelJLabel.setText("aktuelle Kanal ist:");
-
-    	// Bilschirm JPanel
-    	_bildschirmJPanel = new javax.swing.JPanel();
-
-        //Liste von Kanälen wird in jScroll reingesezt
-        _kanalJList = new javax.swing.JList<>();
-        _listeJScrollPane = new javax.swing.JScrollPane();
-        _listeJScrollPane.setViewportView(_kanalJList);
-        _kanalJList.setModel(new DefaultListModel<Kanal>());
-        
-        //Renderer für icon und text in der JList
+	}
+	
+	private void erzeugeKomponenten() 
+	{
+		int breiteVonJFrame = 273+_breiteVonBildschirm;
+		int hoeheVonJFrame = 169+_hoeheVonBildschirm;
+		setBounds(100, 100, breiteVonJFrame,hoeheVonJFrame);
+		
+		//_hauptPanel
+		_hauptPanel = new JPanel();
+		_hauptPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(_hauptPanel);
+		_hauptPanel.setLayout(null);
+		
+		//_aktuelleChanelJLabel
+		_aktuelleChanelJLabel = new JLabel("aktuelle Kanal ist:");
+		_aktuelleChanelJLabel.setBounds(5, 5, 763, 16);
+		_hauptPanel.add(_aktuelleChanelJLabel);
+		
+		//_bildschirmVideoPanel
+		_bildschirmVideoPanel = new JFXVideoPanel(null);
+		_bildschirmVideoPanel.setAlignmentX(5.0f);
+		_bildschirmVideoPanel.setBounds(6, 33, _breiteVonBildschirm, _hoeheVonBildschirm);
+		_bildschirmVideoPanel.setAlignmentY(50.0f);
+		_bildschirmVideoPanel.setMinimumSize(new Dimension(400, 200));
+		_bildschirmVideoPanel.setMaximumSize(new Dimension(1024, 768));
+		_hauptPanel.add(_bildschirmVideoPanel);
+		
+		//_listeJScrollPane
+		_listeJScrollPane = new JScrollPane();
+		//_listeJScrollPane.setBounds(528, 33, 240, 385);
+		int breieVom_listeJScrollPane = 240;
+		_listeJScrollPane.setBounds(breiteVonJFrame - breieVom_listeJScrollPane - 5, 33, breieVom_listeJScrollPane, _hoeheVonBildschirm);
+		_hauptPanel.add(_listeJScrollPane);
+		
+		//_kanalJList
+		_kanalJList = new JList<Kanal>();
+		_listeJScrollPane.setViewportView(_kanalJList);
+		_kanalJList.setModel(new DefaultListModel<Kanal>());	//Renderer für icon und text in der JList
         _kanalJList.setCellRenderer(new JListRenderer());
         
-        //Status Label
-        _statusJLabel = new javax.swing.JLabel();
-        _statusJLabel.setText("Status:");
-        
-        //Die Buttons
-        _homeButton = new JButton("Home");
-        _backButton = new JButton("back");
-        _backButton.setEnabled(false);
-        _nextButton = new JButton("Next");
-        _nextButton.setEnabled(false);
-        
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    }
-    
-    /**
-     * Erzeugt das Layout
-     */
-    public void erzeugeLayout()
-    {
-      javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-      // Horizontal
-      layout.setHorizontalGroup(
-          layout.createParallelGroup(Alignment.LEADING)
-              .addGroup(layout.createSequentialGroup()
-                  .addGap(28)								// Linke Grenze von der ganzen JFrame
-                  .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                      .addGroup(layout.createSequentialGroup()
-                          .addComponent(_homeButton)
-                          .addGap(25)						//Abstand zu dem näschten Button
-                          .addComponent(_backButton)
-                          .addPreferredGap(ComponentPlacement.RELATED)
-                          .addComponent(_nextButton))
-                      .addComponent(_aktuelleChanelJLabel)
-                      .addGroup(layout.createSequentialGroup()
-                          .addGap(6)
-                          .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                              .addComponent(_statusJLabel)
-                              .addGroup(layout.createSequentialGroup()
-                                  .addComponent(_bildschirmJPanel, GroupLayout.DEFAULT_SIZE, _breiteVonBildschirm, Short.MAX_VALUE)
-                                  .addGap(18)
-                                  .addComponent(_listeJScrollPane, GroupLayout.PREFERRED_SIZE, _breiteDerListe, GroupLayout.PREFERRED_SIZE)))))
-                  .addContainerGap())
-      );
-      // Vertikal
-      layout.setVerticalGroup(
-          layout.createParallelGroup(Alignment.TRAILING)
-              .addGroup(Alignment.LEADING, layout.createSequentialGroup()
-                  .addGap(19)
-                  .addComponent(_aktuelleChanelJLabel)
-                  .addGap(14)
-                  .addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-                      .addComponent(_listeJScrollPane, Alignment.LEADING)
-                      .addComponent(_bildschirmJPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, _hoeheVonBildschirm, Short.MAX_VALUE))
-                  .addGap(18)
-                  .addComponent(_statusJLabel)
-                  .addGap(18)
-                  .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                      .addComponent(_homeButton)
-                      .addComponent(_nextButton)
-                      .addComponent(_backButton))
-                  .addContainerGap(32, Short.MAX_VALUE))
-      );
-      getContentPane().setLayout(layout);
-
-      pack();
-    }    
-    
+		//Buttons
+        int YPositionVonButtons = hoeheVonJFrame-60;
+			//_homeButton
+		_homeButton = new JButton("Home");
+		_homeButton.setBounds(26, YPositionVonButtons, 117, 29);
+		_hauptPanel.add(_homeButton);
+		
+			//_backButton
+		_backButton = new JButton("Back");
+		_backButton.setBounds(184, YPositionVonButtons, 117, 29);
+		_hauptPanel.add(_backButton);
+		_backButton.setEnabled(false);
+		
+			//_nextButton
+		_nextButton = new JButton("Next");
+		_nextButton.setBounds(313, YPositionVonButtons, 117, 29);
+		_hauptPanel.add(_nextButton);
+		_nextButton.setEnabled(false);
+		
+		//_statusJLabel
+		int YPositionVon_statusJLabel = hoeheVonJFrame-120;
+		_statusJLabel = new JLabel("Status:");
+		_statusJLabel.setBounds(35, YPositionVon_statusJLabel, 61, 16);
+		_hauptPanel.add(_statusJLabel);
+		
+		//_bildschirmPhotoJPanel
+		_bildschirmPhotoJPanel = new JPanel();
+		_bildschirmPhotoJPanel.setBounds(454, 431, 285, 75);
+		_hauptPanel.add(_bildschirmPhotoJPanel);
+	}
+	
     public javax.swing.JList<Kanal> get_kanalListe()
     {
         return _kanalJList;
     }
     
-    public javax.swing.JPanel get_bildSchirmJPanel() {
-		return _bildschirmJPanel;
-	}
-
-	public void set_bildschirmJPanel(javax.swing.JPanel _aktuelleInhalt) {
-		this._bildschirmJPanel = _aktuelleInhalt;
-	}
-
-	public int get_hoeheVon_aktuelleInhalt() {
+    public int get_hoeheVon_aktuelleInhalt() {
 		return _hoeheVonBildschirm;
 	}
 
@@ -177,5 +145,38 @@ public class HomeScreenUI extends javax.swing.JFrame {
 	public JLabel get_aktuelleChanelJLabel() {
 		return _aktuelleChanelJLabel;
 	}
-}
 
+	public void set_bildschirmVideoPanel(JFXVideoPanel bildschirmJFXPanel) {
+		_bildschirmVideoPanel = bildschirmJFXPanel;
+	}
+
+	public JFXPanel get_bildschirmVideoPanel() {
+		return _bildschirmVideoPanel;
+	}
+
+	public javax.swing.JPanel get_bildSchirmPhotoJPanel() {
+		return _bildschirmPhotoJPanel;
+	}
+
+	public void set_bildschirmPhotoJPanel(javax.swing.JPanel _aktuelleInhalt) {
+		this._bildschirmPhotoJPanel = _aktuelleInhalt;
+	}
+
+	public JPanel getHauptPane() {
+		return _hauptPanel;
+	}
+	
+	/**
+	 * erzeugt ein VideoPanel und füge in _hauptPanel hinzu
+	 * @param panel JFXVideoPanel
+	 */
+	public void addVideoPanel(JFXVideoPanel panel)
+	{
+		_bildschirmVideoPanel = panel;
+		_bildschirmVideoPanel.setBounds(6, 33, _breiteVonBildschirm, _hoeheVonBildschirm);
+		_bildschirmVideoPanel.setAlignmentY(50.0f);
+		_bildschirmVideoPanel.setMinimumSize(new Dimension(600, 400));
+		_bildschirmVideoPanel.setMaximumSize(new Dimension(800, 600));
+		_hauptPanel.add(_bildschirmVideoPanel, 1);
+	}
+}

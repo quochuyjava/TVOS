@@ -1,19 +1,21 @@
 package werkzeug;
 
-import java.awt.Image;
+import java.awt.Component;
+
+//import java.awt.Image;													//Für Fotos
+//import javax.swing.ImageIcon;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import Service.HomeScreenService;
+import VideoPlayer.JFXVideoPanel;
 import fachwerte.KanalVerlauf;
 import materialien.Kanal;
 
@@ -24,7 +26,7 @@ public class HomeScreenWerkzeug
     
     /**
      * Konstruktor
-     * @param homeSreenService Die Service von HomeSreen
+     * @param homeSreenService Die Service vom HomeSreen
      */
     public HomeScreenWerkzeug(HomeScreenService homeSreenService)
     {
@@ -33,9 +35,8 @@ public class HomeScreenWerkzeug
         showUI();
         addKanälenZuJList();
         
-        //Zeigt AktuelleInhalt von dem ersten Kanal auf dem Bildschirm
-        reagiereAufKanalAenderung(_homeSreenService.get_kanalListe().get(0));
-        
+//        Zeigt AktuelleInhalt von dem ersten Kanal auf dem Bildschirm			//Für Fotos
+//        reagiereAufKanalAenderung(_homeSreenService.get_kanalListe().get(0)); //Für Fotos
         registriereUIAktionen();
     }
 
@@ -70,33 +71,63 @@ public class HomeScreenWerkzeug
      */
     private void reagiereAufKanalAenderung(Kanal aktuelleKanal)
     {
-    	zeigeAufDemBildschirm(aktuelleKanal);
+//    	zeigePhoto(aktuelleKanal);											//Für Fotos
+    	zeigeVideo(aktuelleKanal);
     	veraendertDentextVomJLabel(aktuelleKanal);
-    	
     }
     
+//    /**
+//     * Zeige Mediendatei auf dem Bildschirm
+//     * @param aktuelleKanal: Der Kanal, den in der Liste gewählt wird
+//     */
+//    private void zeigePhoto(Kanal aktuelleKanal)
+//    {
+//    	//Resize das Bild
+//		int hoehe = _homeScreenUI.get_hoeheVon_aktuelleInhalt();
+//		int breite = _homeScreenUI.get_breiteVon_aktuelleInhalt();
+//		String medienDateiLink = aktuelleKanal.get_mediaDateiLink();
+//		ImageIcon imageIcon = new ImageIcon(medienDateiLink); // Photo Datei -> ImageIcon -> Image, damit man Resize machen kann
+//		Image image = imageIcon.getImage();
+//		Image newimg = image.getScaledInstance(breite, hoehe,  java.awt.Image.SCALE_SMOOTH); 	// scale it the smooth way  
+//		imageIcon = new ImageIcon(newimg);  // Image -> ImageIcon damit man in JLabel hinzufügen kann
+//		
+//		JLabel label = new JLabel(imageIcon);
+//		if(_homeScreenUI.get_bildSchirmPhotoJPanel().getComponentCount() != 0)
+//		{
+//			_homeScreenUI.get_bildSchirmPhotoJPanel().remove(0);
+//		}
+//		_homeScreenUI.get_bildSchirmPhotoJPanel().add(label);
+//		_homeScreenUI.get_bildSchirmPhotoJPanel().revalidate();
+//    }
+    
     /**
-     * Zeige Mediendatei auf dem Bildschirm
-     * @param aktuelleKanal: Der Kanal, den in der Liste gewählt wird
+     * Zeige das Video auf dem Bildschirm
+     * @param aktuelleKanal
      */
-    private void zeigeAufDemBildschirm(Kanal aktuelleKanal)
+    private void zeigeVideo(Kanal aktuelleKanal)
     {
-    	//Resize das Bild
-		int hoehe = _homeScreenUI.get_hoeheVon_aktuelleInhalt();
-		int breite = _homeScreenUI.get_breiteVon_aktuelleInhalt();
-		String medienDateiLink = aktuelleKanal.get_mediaDateiLink();
-		ImageIcon imageIcon = new ImageIcon(medienDateiLink); // Photo Datei -> ImageIcon -> Image, damit man Resize machen kann
-		Image image = imageIcon.getImage();
-		Image newimg = image.getScaledInstance(breite, hoehe,  java.awt.Image.SCALE_SMOOTH); 	// scale it the smooth way  
-		imageIcon = new ImageIcon(newimg);  // Image -> ImageIcon damit man in JLabel hinzufügen kann
-		
-		JLabel label = new JLabel(imageIcon);
-		if(_homeScreenUI.get_bildSchirmJPanel().getComponentCount() != 0)
+    	//first way
+//    	if (_homeScreenUI.getHauptPane().getComponent(1) instanceof JFXVideoPanel)
+//    	{
+////    		((JFXVideoPanel) _homeScreenUI.getHauptPane().getComponent(1)).stop();
+////    		_homeScreenUI.getHauptPane().remove(1);
+//    	}
+    	
+    	//second way (better)
+		Component[] comps = _homeScreenUI.getHauptPane().getComponents();
+		for (Component comp : comps)
 		{
-			_homeScreenUI.get_bildSchirmJPanel().remove(0);
+			if (comp instanceof JFXVideoPanel) 
+			{
+				((JFXVideoPanel) comp).stop();
+				_homeScreenUI.getHauptPane().remove(comp);
+			}
 		}
-		_homeScreenUI.get_bildSchirmJPanel().add(label);
-		_homeScreenUI.get_bildSchirmJPanel().revalidate();
+		JFXVideoPanel panel = new JFXVideoPanel(aktuelleKanal.get_mediaDateiLink());
+		_homeScreenUI.addVideoPanel(panel);
+		
+		_homeScreenUI.revalidate();
+		_homeScreenUI.repaint();
     }
     
     /**
@@ -131,7 +162,7 @@ public class HomeScreenWerkzeug
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reagiereAufDenBackButton();
-				aktualisiereStatusBackUndNextButtons();
+				aktualisiereZuständeBackUndNextButtons();
 			}
 		});
 		
@@ -162,7 +193,7 @@ public class HomeScreenWerkzeug
     	JList<Kanal> list = _homeScreenUI.get_kanalListe();
     	list.setSelectedValue(letzterKanal, true);
     	reagiereAufKanalAenderung(letzterKanal);
-    	aktualisiereStatusBackUndNextButtons();
+    	aktualisiereZuständeBackUndNextButtons();
     }
     
     /**
@@ -174,10 +205,10 @@ public class HomeScreenWerkzeug
     	JList<Kanal> list = _homeScreenUI.get_kanalListe();
     	list.setSelectedValue(naechsteKanal, true);
     	reagiereAufKanalAenderung(naechsteKanal);
-    	aktualisiereStatusBackUndNextButtons();
+    	aktualisiereZuständeBackUndNextButtons();
     }
 
-	private void aktualisiereStatusBackUndNextButtons() {
+	private void aktualisiereZuständeBackUndNextButtons() {
 		KanalVerlauf verlauf = _homeSreenService.get_kanalVerlauf();
 		JButton backButton = _homeScreenUI.get_backButton();
 		JButton nextButton = _homeScreenUI.get_nextButton();
@@ -208,7 +239,7 @@ public class HomeScreenWerkzeug
 				if (list.getValueIsAdjusting())
 				{
 					reagiereAufDieKanalListe();
-					aktualisiereStatusBackUndNextButtons();
+					aktualisiereZuständeBackUndNextButtons();
 				}
 			}
 		});

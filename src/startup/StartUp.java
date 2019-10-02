@@ -20,6 +20,7 @@ public class StartUp
     {
         HomeScreenService homeScreenService = erzeugeHomeScreenService();
         HomeScreenWerkzeug homescreen = new HomeScreenWerkzeug(homeScreenService);
+        
     }
     
     /**
@@ -41,9 +42,9 @@ public class StartUp
     private static List<Kanal> erzeugeBeispielKanaele()
     {
         List<Kanal> kanalListe = new ArrayList<Kanal>();
-        kanalListe.add(new Kanal ("VTV", "Vietnam Television", "Vietnamese", "Vietnam", "Inhalt/vtv.jpg"));
-        kanalListe.add(new Kanal ("VTC", "Vietnam Multimedia Corporation", "Vietnamese", "Vietnam", "Inhalt/vtc.jpg"));
-        kanalListe.add(new Kanal ("PRO7", "ProSieben", "Vietnamese", "Vietnam", "Inhalt/pro7.jpg"));
+        kanalListe.add(new Kanal ("VTV", "Vietnam Television", "Vietnamese", "Vietnam", "Videos/VTV.mp4"));
+        kanalListe.add(new Kanal ("VTC", "Vietnam Multimedia Corporation", "Vietnamese", "Vietnam", "Videos/VTC.mp4"));
+        kanalListe.add(new Kanal ("PRO7", "ProSieben", "Deutsch", "Deutschland", "Videos/PRO7.mp4"));
         return kanalListe;
         
     }
